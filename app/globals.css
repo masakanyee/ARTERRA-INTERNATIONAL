@@ -3,18 +3,12 @@
 @tailwind utilities;
 
 :root {
-  --foreground: #0a0a0a;
-  --background: #fafafa;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground: #fafafa;
-    --background: #0a0a0a;
-  }
-}
-
-body {
-  color: var(--foreground);
-  background: var(--background);
+  --arterra-cream: #F7F7F6;
+  --arterra-paper: #F3F0E6;
+  --arterra-olive: #6D653C;
+  --arterra-forest: #3B6B42;
+  --arterra-ink: #0F172A;
+  --arterra-charcoal: #1E1C17;
+  --arterra-border: #D0CAB8;
+  --arterra-muted: #64748B;
 }
