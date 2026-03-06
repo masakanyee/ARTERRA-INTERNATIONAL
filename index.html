@@ -142,8 +142,8 @@
       padding: 3px 10px; margin-left: 12px; vertical-align: middle;
     }
 
-    /* Process - WHO WE ARE */
-    #process { background: #E9E5D8; }
+    /* WHO WE ARE */
+    #who { background: #E9E5D8; }
     .who-inner { max-width: 1200px; margin: 0 auto; padding: 100px 80px; }
     .who-body { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; margin-top: 60px; }
     .who-lead {
@@ -154,6 +154,63 @@
       margin-top: 60px; padding-top: 24px; border-top: 1px solid #D0CAB8;
       font-family: 'DM Sans', sans-serif; font-size: 12px; color: #89A882;
       letter-spacing: 0.1em; text-align: center;
+    }
+
+    /* PROCESS セクション */
+    #process {
+      background: #F3F0E6;
+      border-top: 1px solid #D0CAB8;
+    }
+    .process-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 100px 80px;
+    }
+    .process-subtitle {
+      font-family: 'DM Sans';
+      font-size: 16px;
+      color: #89A882;
+      margin-top: 16px;
+      max-width: 480px;
+    }
+    .process-steps {
+      margin-top: 72px;
+    }
+    .process-step {
+      display: grid;
+      grid-template-columns: 120px 1fr;
+      border-top: 1px solid #D0CAB8;
+      padding: 48px 0;
+      gap: 40px;
+      align-items: start;
+    }
+    .process-step:last-child {
+      border-bottom: 1px solid #D0CAB8;
+    }
+    .step-left {
+      padding-top: 4px;
+    }
+    .step-number {
+      font-family: 'Shippori Mincho';
+      font-size: 48px;
+      color: #D0CAB8;
+      font-weight: 400;
+      line-height: 1;
+      display: block;
+    }
+    .step-title {
+      font-family: 'Shippori Mincho';
+      font-size: 28px;
+      color: #1E1C17;
+      font-weight: 400;
+      margin: 0 0 16px;
+    }
+    .step-body {
+      font-family: 'DM Sans';
+      font-size: 16px;
+      color: #3A3632;
+      line-height: 1.8;
+      max-width: 620px;
     }
 
     /* CTA */
@@ -266,6 +323,14 @@
       .section-title { font-size: 32px; }
       .who-body { grid-template-columns: 1fr; gap: 40px; }
       .who-inner { padding: 60px 24px; }
+      .process-inner { padding: 60px 24px; }
+      .process-step {
+        grid-template-columns: 1fr;
+        gap: 12px;
+        padding: 36px 0;
+      }
+      .step-number { font-size: 32px; }
+      .step-title { font-size: 22px; }
       .cta-inner { flex-direction: column; gap: 32px; text-align: center; padding: 60px 24px; }
       .cta-text { font-size: 24px; }
       .footer-inner { grid-template-columns: 1fr; gap: 40px; padding: 48px 24px; }
@@ -282,7 +347,7 @@
     <nav class="nav-links">
       <a href="#hero">TOP</a>
       <a href="#about">ABOUT US</a>
-      <a href="#about">MATCHA</a>
+      <a href="#who">WHO WE ARE</a>
       <a href="#process">PROCESS</a>
       <a href="#" onclick="openModal(); return false;">QUOTATION</a>
     </nav>
@@ -293,7 +358,7 @@
     <button class="close-menu" type="button" aria-label="Close">×</button>
     <a href="#hero">TOP</a>
     <a href="#about">ABOUT US</a>
-    <a href="#about">MATCHA</a>
+    <a href="#who">WHO WE ARE</a>
     <a href="#process">PROCESS</a>
     <a href="#" id="mobile-quotation">QUOTATION</a>
   </div>
@@ -378,7 +443,7 @@
     </div>
   </section>
 
-  <section id="process">
+  <section id="who">
     <div class="who-inner reveal">
       <div class="section-header" style="padding-top: 0;">
         <span class="section-number">002</span>
@@ -403,6 +468,86 @@
     </div>
   </section>
 
+  <section id="process">
+    <div class="process-inner">
+      <div class="section-header reveal" style="padding-top: 0;">
+        <span class="section-number">003</span>
+        <h2 class="section-title">PROCESS</h2>
+        <p class="process-subtitle reveal">
+          From your first inquiry to final delivery — a clear, guided journey.
+        </p>
+      </div>
+      <div class="process-steps">
+        <div class="process-step reveal">
+          <div class="step-left">
+            <span class="step-number">01</span>
+          </div>
+          <div>
+            <h3 class="step-title">Inquiry</h3>
+            <p class="step-body">
+              Reach out via the inquiry form, email, or WhatsApp.
+              Tell us about your product needs, intended use, and approximate volume.
+              We respond within 1–2 business days.
+            </p>
+          </div>
+        </div>
+        <div class="process-step reveal">
+          <div class="step-left">
+            <span class="step-number">02</span>
+          </div>
+          <div>
+            <h3 class="step-title">Meeting & Consultation</h3>
+            <p class="step-body">
+              We schedule a call or meeting to understand your brand, goals, and
+              requirements in depth. Whether you need culinary-grade matcha for
+              large-scale production or ceremonial-grade for a premium line,
+              we listen before we recommend.
+            </p>
+          </div>
+        </div>
+        <div class="process-step reveal">
+          <div class="step-left">
+            <span class="step-number">03</span>
+          </div>
+          <div>
+            <h3 class="step-title">Proposal</h3>
+            <p class="step-body">
+              Based on your required grade, volume, and budget, we present
+              a tailored sourcing proposal — including sample options,
+              pricing tiers, and supply timeline.
+            </p>
+          </div>
+        </div>
+        <div class="process-step reveal">
+          <div class="step-left">
+            <span class="step-number">04</span>
+          </div>
+          <div>
+            <h3 class="step-title">Agreement</h3>
+            <p class="step-body">
+              Once terms are confirmed, we finalize the contract.
+              We handle all necessary documentation and logistics coordination
+              to ensure a smooth and transparent process.
+            </p>
+          </div>
+        </div>
+        <div class="process-step reveal">
+          <div class="step-left">
+            <span class="step-number">05</span>
+          </div>
+          <div>
+            <h3 class="step-title">Delivery</h3>
+            <p class="step-body">
+              Your matcha is delivered on schedule, with full traceability
+              from origin to destination. We remain your point of contact
+              for reorders, quality checks, and ongoing supply needs.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <section id="cta">
     <div class="cta-inner reveal">
       <p class="cta-text">Ready to source matcha for your brand?</p>
@@ -419,7 +564,7 @@
       <nav class="footer-nav">
         <a href="#hero">TOP</a>
         <a href="#about">ABOUT US</a>
-        <a href="#about">MATCHA</a>
+        <a href="#who">WHO WE ARE</a>
         <a href="#process">PROCESS</a>
         <a href="#" onclick="openModal(); return false;">QUOTATION</a>
       </nav>
