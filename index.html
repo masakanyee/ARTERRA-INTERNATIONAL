@@ -78,7 +78,7 @@
     }
     .hero-brand {
       font-family: 'Shippori Mincho', serif; font-size: 13vw; font-weight: 400;
-      line-height: 1; margin: 0;
+      line-height: 1; margin: 0; white-space: nowrap; overflow: visible;
     }
     .hero-tagline { font-family: 'DM Sans', sans-serif; font-size: 14px; opacity: 0.8; margin-top: 16px; }
     .hero-card {
@@ -136,6 +136,14 @@
     }
     .service-body { font-family: 'DM Sans', sans-serif; font-size: 16px; color: #3A3632; line-height: 1.8; }
     .service-tags { font-family: 'DM Sans', sans-serif; font-size: 12px; color: #89A882; margin-top: 20px; }
+    .detail-link {
+      display: inline-block; margin-top: 24px;
+      font-family: 'DM Sans', sans-serif; font-size: 11px; font-weight: 500;
+      text-transform: uppercase; letter-spacing: 0.12em; color: #3B6B42;
+      text-decoration: none; border-bottom: 1px solid #3B6B42; padding-bottom: 2px;
+      transition: opacity 0.2s;
+    }
+    .detail-link:hover { opacity: 0.7; }
     .badge {
       font-family: 'DM Sans', sans-serif; font-size: 11px; color: #3B6B42;
       border: 1px solid #89A882; border-radius: 3px;
@@ -150,10 +158,27 @@
       font-family: 'Shippori Mincho', serif; font-size: 28px; color: #3B6B42;
       font-style: italic; line-height: 1.5;
     }
-    .who-disciplines {
-      margin-top: 60px; padding-top: 24px; border-top: 1px solid #D0CAB8;
-      font-family: 'DM Sans', sans-serif; font-size: 12px; color: #89A882;
-      letter-spacing: 0.1em; text-align: center;
+    .member-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px; margin-top: 60px;
+    }
+    .member-card {
+      text-decoration: none; display: flex; flex-direction: column; gap: 12px;
+      transition: opacity 0.2s; background: none; border: none; padding: 0;
+      cursor: pointer; text-align: left;
+    }
+    .member-card:hover { opacity: 0.75; }
+    .member-photo {
+      width: 100%; aspect-ratio: 3/4; background: #3B6B42; border-radius: 2px;
+    }
+    .member-role {
+      font-family: 'DM Sans', sans-serif; font-size: 11px; color: #89A882;
+      text-transform: uppercase; letter-spacing: 0.12em;
+    }
+    .member-name {
+      font-family: 'Shippori Mincho', serif; font-size: 18px; color: #1E1C17;
+    }
+    @media (max-width: 768px) {
+      .member-grid { grid-template-columns: repeat(2, 1fr); gap: 20px; }
     }
 
     /* PROCESS セクション */
@@ -255,6 +280,49 @@
       font-family: 'DM Sans', sans-serif; font-size: 11px; color: #5C5A52; text-align: center;
     }
 
+    /* Member Modal */
+    #member-modal-overlay {
+      display: none; position: fixed; inset: 0;
+      background: rgba(30,28,23,0.8); backdrop-filter: blur(6px);
+      justify-content: center; align-items: center; z-index: 1000;
+    }
+    #member-modal-overlay.open { display: flex; }
+    #member-modal {
+      background: #F3F0E6; width: 860px; max-width: 95vw;
+      max-height: 90vh; overflow-y: auto; position: relative;
+      display: grid; grid-template-columns: 320px 1fr;
+    }
+    .member-modal-photo {
+      background: #3B6B42; min-height: 480px;
+      display: flex; align-items: flex-end; justify-content: flex-start; padding: 24px;
+    }
+    .member-modal-photo-label {
+      font-family: 'DM Sans', sans-serif; font-size: 10px; color: rgba(255,255,255,0.3);
+      text-transform: uppercase; letter-spacing: 0.15em;
+    }
+    .member-modal-photo img { width: 100%; height: 100%; object-fit: cover; display: block; position: absolute; inset: 0; }
+    .member-modal-info { padding: 48px 40px; display: flex; flex-direction: column; justify-content: space-between; }
+    .member-modal-close {
+      position: absolute; top: 16px; right: 20px;
+      background: none; border: none; font-size: 20px;
+      color: #89A882; cursor: pointer; z-index: 10;
+    }
+    .member-modal-close:hover { color: #1E1C17; }
+    .member-modal-num { font-family: 'DM Sans', sans-serif; font-size: 11px; color: #89A882; text-transform: uppercase; letter-spacing: 0.2em; display: block; margin-bottom: 12px; }
+    .member-modal-name { font-family: 'Shippori Mincho', serif; font-size: 32px; color: #1E1C17; font-weight: 400; margin: 0 0 8px; line-height: 1.1; }
+    .member-modal-role { font-family: 'DM Sans', sans-serif; font-size: 11px; color: #3B6B42; text-transform: uppercase; letter-spacing: 0.15em; display: block; margin-bottom: 32px; }
+    .member-modal-bio { font-family: 'DM Sans', sans-serif; font-size: 15px; color: #3A3632; line-height: 1.8; }
+    .member-modal-tags { margin-top: 32px; display: flex; flex-wrap: wrap; gap: 8px; }
+    .member-modal-tag { font-family: 'DM Sans', sans-serif; font-size: 11px; color: #3B6B42; border: 1px solid #89A882; padding: 4px 12px; }
+    .member-modal-nav { display: flex; gap: 16px; margin-top: 32px; border-top: 1px solid #D0CAB8; padding-top: 24px; }
+    .member-nav-btn { background: none; border: none; font-family: 'DM Sans', sans-serif; font-size: 11px; color: #89A882; text-transform: uppercase; letter-spacing: 0.12em; cursor: pointer; padding: 0; transition: color 0.2s; }
+    .member-nav-btn:hover { color: #1E1C17; }
+    @media (max-width: 640px) {
+      #member-modal { grid-template-columns: 1fr; }
+      .member-modal-photo { min-height: 240px; }
+      .member-modal-info { padding: 32px 24px; }
+    }
+
     /* Modal */
     #modal-overlay {
       display: none; position: fixed; inset: 0;
@@ -339,6 +407,98 @@
       .hamburger { display: block; }
       #site-header { padding: 16px 24px; }
     }
+
+    /* ───── ANIMATIONS ───── */
+
+    /* Page load */
+    body { opacity: 0; }
+    body.loaded { opacity: 1; transition: opacity 0.6s ease; }
+
+    /* Scroll progress bar */
+    .scroll-progress-bar {
+      position: fixed; top: 0; left: 0; height: 2px;
+      background: #3B6B42; width: 0%; z-index: 500;
+      transition: width 0.08s linear;
+    }
+
+    /* Custom cursor — matcha powder particles (desktop only) */
+    .cursor-particle {
+      position: fixed; top: 0; left: 0;
+      border-radius: 50%; pointer-events: none; z-index: 9999;
+      transform: translate(-50%,-50%);
+      opacity: 0; transition: opacity 0.4s ease;
+    }
+    body.cursor-active .cursor-particle { opacity: var(--cp-op, 1); }
+    @media (hover: none) { .cursor-particle { display: none; } }
+
+    /* Marquee band */
+    .marquee-band { background: #3B6B42; overflow: hidden; padding: 13px 0; }
+    .marquee-track { display: inline-flex; white-space: nowrap; animation: marqueeMov 32s linear infinite; }
+    .marquee-track:hover { animation-play-state: paused; }
+    .marquee-item {
+      font-family: 'DM Sans', sans-serif; font-size: 11px; font-weight: 500;
+      text-transform: uppercase; letter-spacing: 0.2em; color: rgba(255,255,255,0.6); padding: 0 32px;
+    }
+    .marquee-sep { color: rgba(255,255,255,0.2); align-self: center; font-size: 8px; }
+    @keyframes marqueeMov { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+    /* Hero letter reveal */
+    .hero-letter {
+      display: inline-block; opacity: 0;
+      transform: translateY(80px) rotateX(20deg);
+      animation: letterIn 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      transform-origin: bottom;
+    }
+    @keyframes letterIn { to { opacity: 1; transform: translateY(0) rotateX(0); } }
+    .hero-tagline { opacity: 0; }
+    .hero-tagline.anim-in { animation: fadeSlideUp 0.8s ease 1.3s forwards; }
+    .hero-stat { opacity: 0; }
+    .hero-stat.anim-in { animation: fadeSlideUp 0.7s ease 1.5s forwards; }
+    .scroll-hint { opacity: 0; animation: fadeSlideUp 0.6s ease 1.8s forwards, hintPulse 2.5s ease 2.4s infinite; }
+    @keyframes fadeSlideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes hintPulse { 0%,100% { opacity: 0.6; } 50% { opacity: 1; } }
+
+    /* Service image clip-path reveal */
+    .service-image .placeholder {
+      clip-path: inset(0 100% 0 0);
+      transition: clip-path 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.1s;
+    }
+    .service-image.clip-in .placeholder { clip-path: inset(0 0% 0 0); }
+
+    /* Member card hover overlay */
+    .member-photo { overflow: hidden; transition: transform 0.5s cubic-bezier(0.16,1,0.3,1); }
+    .member-card:hover .member-photo { transform: scale(1.03); }
+    .member-photo::after {
+      content: 'VIEW →'; position: absolute; inset: 0;
+      background: rgba(30,28,23,0.68);
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'DM Sans', sans-serif; font-size: 11px; font-weight: 500;
+      text-transform: uppercase; letter-spacing: 0.25em; color: white;
+      opacity: 0; transition: opacity 0.35s ease;
+    }
+    .member-card:hover .member-photo::after { opacity: 1; }
+
+    /* CTA button fill animation */
+    #cta .cta-btn {
+      position: relative; overflow: hidden;
+    }
+    #cta .cta-btn::before {
+      content: ''; position: absolute; inset: 0;
+      background: white; transform: translateX(-101%);
+      transition: transform 0.4s cubic-bezier(0.16,1,0.3,1);
+      z-index: -1;
+    }
+    #cta .cta-btn:hover::before { transform: translateX(0); }
+    #cta .cta-btn:hover { color: #1E1C17; }
+
+    /* Section title underline draw */
+    .section-title { position: relative; display: inline-block; }
+    .section-title::after {
+      content: ''; position: absolute; bottom: -6px; left: 0;
+      height: 1px; background: #D0CAB8; width: 0;
+      transition: width 1s cubic-bezier(0.16,1,0.3,1) 0.3s;
+    }
+    .section-title.line-drawn::after { width: 100%; }
   </style>
 </head>
 <body>
@@ -376,6 +536,23 @@
     <div class="scroll-hint">scroll ↓</div>
   </section>
 
+  <div class="marquee-band" aria-hidden="true">
+    <div class="marquee-track">
+      <span class="marquee-item">Matcha Sourcing</span><span class="marquee-sep">◆</span>
+      <span class="marquee-item">Bottled Tea</span><span class="marquee-sep">◆</span>
+      <span class="marquee-item">Media</span><span class="marquee-sep">◆</span>
+      <span class="marquee-item">Farming</span><span class="marquee-sep">◆</span>
+      <span class="marquee-item">Japanese Matcha. Global Scale.</span><span class="marquee-sep">◆</span>
+      <span class="marquee-item">The Art of Matcha, Sourced for the World.</span><span class="marquee-sep">◆</span>
+      <span class="marquee-item">Matcha Sourcing</span><span class="marquee-sep">◆</span>
+      <span class="marquee-item">Bottled Tea</span><span class="marquee-sep">◆</span>
+      <span class="marquee-item">Media</span><span class="marquee-sep">◆</span>
+      <span class="marquee-item">Farming</span><span class="marquee-sep">◆</span>
+      <span class="marquee-item">Japanese Matcha. Global Scale.</span><span class="marquee-sep">◆</span>
+      <span class="marquee-item">The Art of Matcha, Sourced for the World.</span><span class="marquee-sep">◆</span>
+    </div>
+  </div>
+
   <section id="about">
     <div class="section-header reveal">
       <span class="section-number">001</span>
@@ -392,6 +569,7 @@
           From 100kg to 10+ metric tons annually, we scale to your needs.
         </p>
         <span class="service-tags">Culinary → Ceremonial &nbsp;·&nbsp; 100kg–10t+/year &nbsp;·&nbsp; Japan & Global</span>
+        <a href="matcha-sourcing.html" class="detail-link">VIEW DETAILS →</a>
       </div>
       <div class="service-image">
         <div class="placeholder"></div>
@@ -408,6 +586,7 @@
           Each drop is drawn at low temperature, maximizing theanine concentration —
           delivering a depth of sweetness unlike anything on the market.
         </p>
+        <a href="bottled-tea.html" class="detail-link">VIEW DETAILS →</a>
       </div>
       <div class="service-image">
         <div class="placeholder"></div>
@@ -423,6 +602,7 @@
           Japanese craft with a global audience through ongoing brand collaborations.
         </p>
         <span class="service-tags"><span class="badge">#1 Most-Followed Matcha Media Globally</span></span>
+        <a href="media.html" class="detail-link">VIEW DETAILS →</a>
       </div>
       <div class="service-image">
         <div class="placeholder"></div>
@@ -436,6 +616,7 @@
         <p class="service-body">
           Direct farming partnerships currently in development. Details to follow.
         </p>
+        <a href="farming.html" class="detail-link">VIEW DETAILS →</a>
       </div>
       <div class="service-image">
         <div class="placeholder"></div>
@@ -461,10 +642,28 @@
           culture, designed for the world.
         </p>
       </div>
-      <p class="who-disciplines">
-        Matcha Specialist &nbsp;|&nbsp; Chef &nbsp;|&nbsp; Researcher
-        &nbsp;|&nbsp; Branding Specialist &nbsp;|&nbsp; Architect
-      </p>
+      <div class="member-grid reveal">
+        <button type="button" class="member-card" onclick="openMemberModal(0)">
+          <div class="member-photo"></div>
+          <span class="member-role">Matcha Specialist</span>
+          <span class="member-name">MEMBER 01</span>
+        </button>
+        <button type="button" class="member-card" onclick="openMemberModal(1)">
+          <div class="member-photo"></div>
+          <span class="member-role">Chef</span>
+          <span class="member-name">MEMBER 02</span>
+        </button>
+        <button type="button" class="member-card" onclick="openMemberModal(2)">
+          <div class="member-photo"></div>
+          <span class="member-role">Researcher</span>
+          <span class="member-name">MEMBER 03</span>
+        </button>
+        <button type="button" class="member-card" onclick="openMemberModal(3)">
+          <div class="member-photo"></div>
+          <span class="member-role">Branding Specialist &amp; Architect</span>
+          <span class="member-name">MEMBER 04</span>
+        </button>
+      </div>
     </div>
   </section>
 
@@ -575,6 +774,29 @@
     <div class="footer-bottom">© 2025 ARTERRA Co., Ltd. All rights reserved.</div>
   </footer>
 
+  <!-- Member Modal -->
+  <div id="member-modal-overlay" onclick="closeMemberModalOnBackdrop(event)">
+    <div id="member-modal" onclick="event.stopPropagation()">
+      <div class="member-modal-photo" id="member-modal-photo">
+        <span class="member-modal-photo-label" id="member-modal-photo-label">PHOTO</span>
+      </div>
+      <div class="member-modal-info">
+        <button type="button" class="member-modal-close" onclick="closeMemberModal()" aria-label="Close">✕</button>
+        <div>
+          <span class="member-modal-num" id="member-modal-num">01</span>
+          <h2 class="member-modal-name" id="member-modal-name">MEMBER 01</h2>
+          <span class="member-modal-role" id="member-modal-role">Matcha Specialist</span>
+          <p class="member-modal-bio" id="member-modal-bio">Bio text here.</p>
+          <div class="member-modal-tags" id="member-modal-tags"></div>
+        </div>
+        <div class="member-modal-nav">
+          <button type="button" class="member-nav-btn" onclick="prevMember()">← PREV</button>
+          <button type="button" class="member-nav-btn" onclick="nextMember()">NEXT →</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div id="modal-overlay" onclick="closeModalOnBackdrop(event)">
     <div id="modal" onclick="event.stopPropagation()">
       <button type="button" class="modal-close" onclick="closeModal()" aria-label="Close">✕</button>
@@ -644,6 +866,80 @@
   </div>
 
   <script>
+    var members = [
+      {
+        num: '01',
+        name: 'MEMBER 01',
+        role: 'Matcha Specialist',
+        bio: 'Background and biography to be added. This section will include details about this member\'s history, expertise, and role within ARTERRA.',
+        tags: ['Matcha Grading', 'Uji / Nishio', 'Sourcing'],
+        photoLabel: 'PHOTO — Matcha Specialist'
+      },
+      {
+        num: '02',
+        name: 'MEMBER 02',
+        role: 'Chef',
+        bio: 'Background and biography to be added. This section will include details about this member\'s culinary background, expertise, and role within ARTERRA.',
+        tags: ['Culinary Arts', 'Product Development', 'Matcha Applications'],
+        photoLabel: 'PHOTO — Chef'
+      },
+      {
+        num: '03',
+        name: 'MEMBER 03',
+        role: 'Researcher',
+        bio: 'Background and biography to be added. This section will include details about this member\'s research background, scientific expertise, and role within ARTERRA.',
+        tags: ['Tea Science', 'Theanine Research', 'Quality Assurance'],
+        photoLabel: 'PHOTO — Researcher'
+      },
+      {
+        num: '04',
+        name: 'MEMBER 04',
+        role: 'Branding Specialist & Architect',
+        bio: 'Background and biography to be added. This section will include details about this member\'s design and branding background, and role within ARTERRA.',
+        tags: ['Brand Strategy', 'Visual Identity', 'Architecture'],
+        photoLabel: 'PHOTO — Branding & Architecture'
+      }
+    ];
+
+    var currentMemberIndex = 0;
+
+    function openMemberModal(index) {
+      currentMemberIndex = index;
+      renderMemberModal();
+      document.getElementById('member-modal-overlay').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function renderMemberModal() {
+      var m = members[currentMemberIndex];
+      document.getElementById('member-modal-num').textContent = m.num;
+      document.getElementById('member-modal-name').textContent = m.name;
+      document.getElementById('member-modal-role').textContent = m.role;
+      document.getElementById('member-modal-bio').textContent = m.bio;
+      document.getElementById('member-modal-photo-label').textContent = m.photoLabel;
+      var tagsEl = document.getElementById('member-modal-tags');
+      tagsEl.innerHTML = m.tags.map(function(t) { return '<span class="member-modal-tag">' + t + '</span>'; }).join('');
+    }
+
+    function closeMemberModal() {
+      document.getElementById('member-modal-overlay').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    function closeMemberModalOnBackdrop(e) {
+      if (e.target.id === 'member-modal-overlay') closeMemberModal();
+    }
+
+    function nextMember() {
+      currentMemberIndex = (currentMemberIndex + 1) % members.length;
+      renderMemberModal();
+    }
+
+    function prevMember() {
+      currentMemberIndex = (currentMemberIndex - 1 + members.length) % members.length;
+      renderMemberModal();
+    }
+
     function openModal() {
       document.getElementById('modal-overlay').classList.add('open');
       document.body.style.overflow = 'hidden';
@@ -698,6 +994,119 @@
     mobileLinks.forEach(function(a) {
       if (a.id !== 'mobile-quotation') a.addEventListener('click', function() { mobileMenu.classList.remove('open'); });
     });
+
+    /* ── Page load ── */
+    window.addEventListener('load', function() {
+      document.body.classList.add('loaded');
+
+      // Split hero title into animated letters
+      var heroTitle = document.querySelector('.hero-brand');
+      if (heroTitle) {
+        var text = heroTitle.textContent;
+        heroTitle.style.perspective = '600px';
+        heroTitle.innerHTML = text.split('').map(function(ch, i) {
+          return '<span class="hero-letter" style="animation-delay:' + (0.2 + i * 0.07) + 's">' + ch + '</span>';
+        }).join('');
+      }
+
+      // Animate hero tagline + stat
+      var tagline = document.querySelector('.hero-tagline');
+      var heroStat = document.querySelector('.hero-stat.bottom-left');
+      if (tagline) tagline.classList.add('anim-in');
+      if (heroStat) heroStat.classList.add('anim-in');
+    });
+
+    /* ── Custom cursor — matcha powder particles ── */
+    (function() {
+      var SPECS = [
+        { size: 7,   lag: 1,    op: 0.95, col: '#3B6B42', offX:  0,  offY:  0 },
+        { size: 4,   lag: 0.22, op: 0.80, col: '#3B6B42', offX:  6,  offY: -3 },
+        { size: 3.5, lag: 0.15, op: 0.65, col: '#89A882', offX: -5,  offY:  4 },
+        { size: 5,   lag: 0.10, op: 0.55, col: '#3B6B42', offX:  8,  offY:  6 },
+        { size: 3,   lag: 0.07, op: 0.44, col: '#89A882', offX: -7,  offY: -5 },
+        { size: 4,   lag: 0.05, op: 0.35, col: '#3B6B42', offX:  9,  offY: -7 },
+        { size: 2.5, lag: 0.04, op: 0.26, col: '#89A882', offX: -6,  offY:  9 },
+        { size: 3,   lag: 0.03, op: 0.20, col: '#3B6B42', offX:  5,  offY: 10 },
+        { size: 2,   lag: 0.02, op: 0.14, col: '#89A882', offX: -9,  offY:  3 },
+        { size: 2,   lag: 0.015,op: 0.10, col: '#3B6B42', offX:  3,  offY:-10 }
+      ];
+
+      var mx = 0, my = 0;
+      var particles = SPECS.map(function(s) {
+        var el = document.createElement('div');
+        el.className = 'cursor-particle';
+        el.style.width  = s.size + 'px';
+        el.style.height = s.size + 'px';
+        el.style.background = s.col;
+        el.style.setProperty('--cp-op', s.op);
+        document.body.appendChild(el);
+        return { el: el, x: 0, y: 0, lag: s.lag, offX: s.offX, offY: s.offY };
+      });
+
+      document.addEventListener('mousemove', function(e) {
+        mx = e.clientX; my = e.clientY;
+        document.body.classList.add('cursor-active');
+      });
+
+      (function anim() {
+        particles.forEach(function(p) {
+          var tx = mx + p.offX, ty = my + p.offY;
+          if (p.lag >= 1) { p.x = tx; p.y = ty; }
+          else { p.x += (tx - p.x) * p.lag; p.y += (ty - p.y) * p.lag; }
+          p.el.style.left = p.x + 'px';
+          p.el.style.top  = p.y + 'px';
+        });
+        requestAnimationFrame(anim);
+      })();
+
+      document.querySelectorAll('a, button, .member-card, .detail-link').forEach(function(el) {
+        el.addEventListener('mouseenter', function() { document.body.classList.add('cursor-hover'); });
+        el.addEventListener('mouseleave', function() { document.body.classList.remove('cursor-hover'); });
+      });
+    })();
+
+    /* ── Scroll progress bar ── */
+    var progressBar = document.createElement('div');
+    progressBar.className = 'scroll-progress-bar';
+    document.body.appendChild(progressBar);
+    window.addEventListener('scroll', function() {
+      var pct = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight) * 100;
+      progressBar.style.width = pct + '%';
+    });
+
+    /* ── Service image clip-path reveal ── */
+    var clipObs = new IntersectionObserver(function(entries) {
+      entries.forEach(function(e) {
+        if (e.isIntersecting) { e.target.classList.add('clip-in'); clipObs.unobserve(e.target); }
+      });
+    }, { threshold: 0.25 });
+    document.querySelectorAll('.service-image').forEach(function(el) { clipObs.observe(el); });
+
+    /* ── Section title underline ── */
+    var titleObs = new IntersectionObserver(function(entries) {
+      entries.forEach(function(e) {
+        if (e.isIntersecting) { e.target.classList.add('line-drawn'); titleObs.unobserve(e.target); }
+      });
+    }, { threshold: 0.5 });
+    document.querySelectorAll('.section-title').forEach(function(el) { titleObs.observe(el); });
+
+    /* ── Stat counter (10T+) ── */
+    var statEl = document.querySelector('.stat-number');
+    if (statEl) {
+      var counted = false;
+      new IntersectionObserver(function(entries) {
+        if (entries[0].isIntersecting && !counted) {
+          counted = true;
+          var n = 0, target = 10, dur = 1400, step = dur / 60;
+          var inc = target / (dur / 16);
+          var iv = setInterval(function() {
+            n += inc;
+            if (n >= target) { n = target; clearInterval(iv); }
+            statEl.textContent = Math.floor(n) + 'T+';
+          }, 16);
+        }
+      }, { threshold: 0.5 }).observe(statEl);
+    }
   </script>
 </body>
 </html>

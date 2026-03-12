@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ARTERRA — Farming</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;1,9..40,400&family=Shippori+Mincho:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    body { margin: 0; font-family: 'DM Sans', sans-serif; color: #1E1C17; }
+    img { max-width: 100%; height: auto; }
+    #site-header { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; justify-content: space-between; align-items: center; padding: 20px 48px; background: rgba(243,240,230,0.95); backdrop-filter: blur(8px); border-bottom: 1px solid #D0CAB8; }
+    #site-header .logo { font-family: 'Shippori Mincho', serif; font-size: 18px; font-weight: 400; color: #1E1C17; text-decoration: none; }
+    .nav-links { display: flex; gap: 32px; }
+    .nav-links a { font-family: 'DM Sans', sans-serif; font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.12em; color: #1E1C17; text-decoration: none; transition: opacity 0.2s; }
+    .nav-links a:hover { opacity: 0.6; }
+    .hamburger { display: none; background: none; border: none; color: #1E1C17; font-size: 24px; cursor: pointer; padding: 4px; }
+    .mobile-overlay { display: none; position: fixed; inset: 0; background: rgba(30,28,23,0.95); z-index: 99; flex-direction: column; justify-content: center; align-items: center; gap: 24px; }
+    .mobile-overlay.open { display: flex; }
+    .mobile-overlay a { font-family: 'Shippori Mincho', serif; font-size: 24px; color: #F3F0E6; text-decoration: none; }
+    .mobile-overlay .close-menu { position: absolute; top: 20px; right: 24px; background: none; border: none; color: #F3F0E6; font-size: 28px; cursor: pointer; }
+
+    .page-hero { padding: 160px 80px 80px; background: #1E1C17; color: white; }
+    .page-hero-inner { max-width: 1200px; margin: 0 auto; }
+    .back-link { display: inline-block; margin-bottom: 40px; font-family: 'DM Sans', sans-serif; font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.12em; color: #89A882; text-decoration: none; transition: opacity 0.2s; }
+    .back-link:hover { opacity: 0.7; }
+    .page-num { font-family: 'DM Sans', sans-serif; font-size: 11px; color: #89A882; text-transform: uppercase; letter-spacing: 0.2em; display: block; margin-bottom: 16px; }
+    .page-title { font-family: 'Shippori Mincho', serif; font-size: clamp(40px, 6vw, 80px); font-weight: 400; margin: 0 0 24px; line-height: 1.1; }
+    .coming-badge { display: inline-block; font-family: 'DM Sans', sans-serif; font-size: 10px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.15em; color: #89A882; border: 1px solid #89A882; padding: 4px 12px; margin-bottom: 20px; }
+    .page-subtitle { font-family: 'DM Sans', sans-serif; font-size: 16px; color: rgba(255,255,255,0.6); max-width: 560px; line-height: 1.7; }
+
+    .main-image { width: 100%; height: 520px; background: #2a3d2a; display: flex; align-items: center; justify-content: center; }
+    .img-placeholder-label { font-family: 'DM Sans', sans-serif; font-size: 11px; color: rgba(255,255,255,0.3); text-transform: uppercase; letter-spacing: 0.2em; }
+
+    .content-section { background: #F3F0E6; }
+    .content-inner { max-width: 900px; margin: 0 auto; padding: 80px; }
+    .section-label { font-family: 'DM Sans', sans-serif; font-size: 11px; color: #89A882; text-transform: uppercase; letter-spacing: 0.2em; display: block; margin-bottom: 16px; }
+    .content-heading { font-family: 'Shippori Mincho', serif; font-size: 36px; font-weight: 400; color: #1E1C17; margin: 0 0 28px; }
+    .content-body { font-family: 'DM Sans', sans-serif; font-size: 17px; color: #3A3632; line-height: 1.85; margin: 0 0 40px; }
+
+    .vision-section { background: #E9E5D8; }
+    .vision-inner { max-width: 900px; margin: 0 auto; padding: 80px; }
+    .vision-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-top: 40px; }
+    .vision-item { border-top: 1px solid #D0CAB8; padding-top: 28px; }
+    .vision-title { font-family: 'Shippori Mincho', serif; font-size: 22px; color: #1E1C17; margin: 0 0 12px; }
+    .vision-body { font-family: 'DM Sans', sans-serif; font-size: 14px; color: #3A3632; line-height: 1.75; margin: 0; }
+
+    .notify-section { background: #3B6B42; padding: 80px; text-align: center; }
+    .notify-inner { max-width: 600px; margin: 0 auto; }
+    .notify-title { font-family: 'Shippori Mincho', serif; font-size: 32px; color: white; font-weight: 400; margin: 0 0 16px; }
+    .notify-body { font-family: 'DM Sans', sans-serif; font-size: 15px; color: rgba(255,255,255,0.7); line-height: 1.7; margin: 0 0 32px; }
+    .notify-btn { font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.12em; color: #3B6B42; background: white; border: none; border-radius: 3px; padding: 14px 40px; cursor: pointer; transition: opacity 0.2s; }
+    .notify-btn:hover { opacity: 0.85; }
+
+    footer { background: #1E1C17; border-top: 1px solid #2E2C25; }
+    .footer-inner { max-width: 1200px; margin: 0 auto; padding: 64px 80px; display: grid; grid-template-columns: 1fr 1fr 1fr; align-items: start; }
+    .footer-brand .logo { font-family: 'Shippori Mincho', serif; font-size: 18px; color: white; }
+    .footer-brand p { font-family: 'DM Sans', sans-serif; font-size: 13px; color: #89A882; margin-top: 8px; }
+    .footer-nav { display: flex; flex-direction: column; gap: 12px; }
+    .footer-nav a { font-family: 'DM Sans', sans-serif; font-size: 12px; color: #89A882; text-transform: uppercase; letter-spacing: 0.1em; text-decoration: none; transition: color 0.2s; }
+    .footer-nav a:hover { color: white; }
+    .footer-contact a { font-family: 'DM Sans', sans-serif; font-size: 12px; color: #89A882; text-decoration: none; }
+    .footer-contact a:hover { color: white; }
+    .footer-bottom { border-top: 1px solid #2E2C25; padding: 20px 80px; font-family: 'DM Sans', sans-serif; font-size: 11px; color: #5C5A52; text-align: center; }
+
+    #modal-overlay { display: none; position: fixed; inset: 0; background: rgba(30,28,23,0.75); backdrop-filter: blur(4px); justify-content: center; align-items: center; z-index: 1000; }
+    #modal-overlay.open { display: flex; }
+    #modal { background: #F3F0E6; border-radius: 4px; width: 600px; max-width: 90vw; max-height: 90vh; overflow-y: auto; padding: 48px; position: relative; }
+    .modal-close { position: absolute; top: 20px; right: 20px; background: none; border: none; font-size: 18px; color: #89A882; cursor: pointer; }
+    .modal-title { font-family: 'Shippori Mincho', serif; font-size: 36px; color: #1E1C17; font-weight: 400; }
+    .modal-sub { font-family: 'DM Sans', sans-serif; font-size: 14px; color: #89A882; margin: 8px 0 40px; }
+    .field-group { margin-bottom: 28px; }
+    .field-group label { display: block; font-family: 'DM Sans', sans-serif; font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.12em; color: #89A882; margin-bottom: 8px; }
+    .field-group input, .field-group select, .field-group textarea { width: 100%; background: transparent; border: none; border-bottom: 1px solid #D0CAB8; padding: 10px 0; font-family: 'DM Sans', sans-serif; font-size: 15px; color: #1E1C17; outline: none; }
+    .field-group input:focus, .field-group select:focus, .field-group textarea:focus { border-bottom-color: #3B6B42; }
+    .radio-group { display: flex; gap: 24px; margin-top: 8px; flex-wrap: wrap; }
+    .radio-label { font-family: 'DM Sans', sans-serif; font-size: 14px; color: #3A3632; text-transform: none; letter-spacing: 0; cursor: pointer; }
+    #matcha-note { display: none; font-family: 'DM Sans', sans-serif; font-size: 13px; font-style: italic; color: #89A882; border-left: 2px solid #3B6B42; padding-left: 12px; margin-bottom: 20px; }
+    .submit-btn { width: 100%; background: #3B6B42; color: white; border: none; border-radius: 3px; padding: 14px; font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.1em; cursor: pointer; transition: background 0.2s; }
+    .submit-btn:hover { background: #5A9E40; }
+    .success-title { font-family: 'Shippori Mincho', serif; font-size: 28px; color: #1E1C17; }
+    .success-sub { font-family: 'DM Sans', sans-serif; font-size: 14px; color: #89A882; margin-top: 12px; }
+    #form-success { display: none; }
+
+    .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    @media (max-width: 768px) {
+      .page-hero { padding: 120px 24px 60px; }
+      .content-inner, .vision-inner { padding: 60px 24px; }
+      .notify-section { padding: 60px 24px; }
+      .vision-grid { grid-template-columns: 1fr; }
+      .footer-inner { grid-template-columns: 1fr; gap: 40px; padding: 48px 24px; }
+      .footer-bottom { padding: 20px 24px; }
+      .nav-links { display: none; }
+      .hamburger { display: block; }
+      #site-header { padding: 16px 24px; }
+    }
+  </style>
+</head>
+<body>
+  <header id="site-header">
+    <a href="index.html" class="logo">ARTERRA</a>
+    <nav class="nav-links">
+      <a href="index.html#hero">TOP</a>
+      <a href="index.html#about">ABOUT US</a>
+      <a href="index.html#who">WHO WE ARE</a>
+      <a href="index.html#process">PROCESS</a>
+      <a href="#" onclick="openModal(); return false;">QUOTATION</a>
+    </nav>
+    <button class="hamburger" type="button" aria-label="Menu">☰</button>
+  </header>
+
+  <div class="mobile-overlay" id="mobile-menu">
+    <button class="close-menu" type="button" aria-label="Close">×</button>
+    <a href="index.html#hero">TOP</a>
+    <a href="index.html#about">ABOUT US</a>
+    <a href="index.html#who">WHO WE ARE</a>
+    <a href="index.html#process">PROCESS</a>
+    <a href="#" id="mobile-quotation">QUOTATION</a>
+  </div>
+
+  <section class="page-hero">
+    <div class="page-hero-inner">
+      <a href="index.html#about" class="back-link">← WHAT WE DO</a>
+      <span class="coming-badge">Coming Soon</span>
+      <span class="page-num">04</span>
+      <h1 class="page-title">Farming</h1>
+      <p class="page-subtitle">Direct farming partnerships — from soil to supply chain. Currently in development.</p>
+    </div>
+  </section>
+
+  <div class="main-image">
+    <span class="img-placeholder-label">IMAGE — Tea Fields / Farming</span>
+  </div>
+
+  <section class="content-section">
+    <div class="content-inner">
+      <span class="section-label reveal">The Vision</span>
+      <h2 class="content-heading reveal">Closer to the Source.</h2>
+      <p class="content-body reveal">
+        The next frontier for ARTERRA is direct farming partnerships — relationships
+        built not at the trading desk, but in the field. We are developing direct ties
+        with tea farmers in Japan and select international regions to give our clients
+        unprecedented traceability and consistency.
+      </p>
+      <p class="content-body reveal">
+        This is not outsourcing. It is collaboration — working alongside the growers who
+        shape the land, refining practices together, and creating a supply chain that
+        neither side could build alone.
+      </p>
+    </div>
+  </section>
+
+  <section class="vision-section">
+    <div class="vision-inner">
+      <span class="section-label reveal">What This Means</span>
+      <h2 class="content-heading reveal">What Direct Farming Unlocks</h2>
+      <div class="vision-grid">
+        <div class="vision-item reveal">
+          <h3 class="vision-title">Full Traceability</h3>
+          <p class="vision-body">Field-to-cup documentation. Know exactly where your matcha was grown, when it was harvested, and how it was processed.</p>
+        </div>
+        <div class="vision-item reveal">
+          <h3 class="vision-title">Quality Co-Development</h3>
+          <p class="vision-body">Work directly with farmers to refine shading duration, harvest timing, and processing for your specific application.</p>
+        </div>
+        <div class="vision-item reveal">
+          <h3 class="vision-title">Supply Security</h3>
+          <p class="vision-body">Dedicated allocations from partner farms — protecting your volume against market fluctuations and harvest variability.</p>
+        </div>
+        <div class="vision-item reveal">
+          <h3 class="vision-title">Exclusive Access</h3>
+          <p class="vision-body">Access to single-origin lots and experimental varieties not available through standard sourcing channels.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="main-image" style="height: 360px; background: #3B6B42;">
+    <span class="img-placeholder-label">IMAGE — Farming / Fields</span>
+  </div>
+
+  <section class="notify-section">
+    <div class="notify-inner">
+      <h2 class="notify-title">Stay Updated</h2>
+      <p class="notify-body">Farming partnerships are currently in development. Reach out if you'd like to be among the first to know when this becomes available.</p>
+      <button type="button" class="notify-btn" onclick="openModal()">REGISTER INTEREST</button>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-brand"><span class="logo">ARTERRA</span><p>Japanese Matcha. Global Scale.</p></div>
+      <nav class="footer-nav">
+        <a href="index.html#hero">TOP</a>
+        <a href="index.html#about">ABOUT US</a>
+        <a href="index.html#who">WHO WE ARE</a>
+        <a href="index.html#process">PROCESS</a>
+        <a href="#" onclick="openModal(); return false;">QUOTATION</a>
+      </nav>
+      <div class="footer-contact"><a href="#" onclick="openModal(); return false;">Contact Us →</a></div>
+    </div>
+    <div class="footer-bottom">© 2025 ARTERRA Co., Ltd. All rights reserved.</div>
+  </footer>
+
+  <div id="modal-overlay" onclick="closeModalOnBackdrop(event)">
+    <div id="modal" onclick="event.stopPropagation()">
+      <button type="button" class="modal-close" onclick="closeModal()" aria-label="Close">✕</button>
+      <h2 class="modal-title">Inquiry</h2>
+      <p class="modal-sub">We'll respond within 1–2 business days.</p>
+      <div id="inquiry-form">
+        <form onsubmit="submitForm(event)">
+          <div class="field-group"><label for="company">Company Name</label><input type="text" id="company" name="company"></div>
+          <div class="field-group"><label for="contact-person">Contact Person</label><input type="text" id="contact-person" name="contact-person"></div>
+          <div class="field-group"><label for="phone">Phone Number</label><input type="tel" id="phone" name="phone"></div>
+          <div class="field-group"><label for="email">Email Address</label><input type="email" id="email" name="email"></div>
+          <div class="field-group">
+            <label>Preferred Contact</label>
+            <div class="radio-group">
+              <label class="radio-label"><input type="radio" name="preferred" value="whatsapp"> WhatsApp</label>
+              <label class="radio-label"><input type="radio" name="preferred" value="email"> Email</label>
+              <label class="radio-label"><input type="radio" name="preferred" value="other"> Other</label>
+            </div>
+          </div>
+          <div class="field-group">
+            <label for="inquiry-category">Inquiry Category</label>
+            <select id="inquiry-category" name="category" onchange="toggleMatchaNote()">
+              <option value="">Select a category</option>
+              <option value="matcha">Matcha Sourcing</option>
+              <option value="branding">Branding</option>
+              <option value="bottled">Bottled Tea</option>
+              <option value="consulting">Consulting</option>
+              <option value="farming" selected>Farming</option>
+              <option value="japan">Entering the Japanese Market</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+          <p id="matcha-note">For matcha sourcing inquiries, please include the product type and approximate annual volume.</p>
+          <div class="field-group"><label for="subject">Subject</label><input type="text" id="subject" name="subject"></div>
+          <div class="field-group"><label for="message">Message</label><textarea id="message" name="message" rows="4"></textarea></div>
+          <button type="submit" class="submit-btn">SEND INQUIRY</button>
+        </form>
+      </div>
+      <div id="form-success"><p class="success-title">Thank you.</p><p class="success-sub">We'll be in touch shortly.</p></div>
+    </div>
+  </div>
+
+  <script>
+    function openModal() { document.getElementById('modal-overlay').classList.add('open'); document.body.style.overflow = 'hidden'; }
+    function closeModal() { document.getElementById('modal-overlay').classList.remove('open'); document.body.style.overflow = ''; }
+    function closeModalOnBackdrop(e) { if (e.target.id === 'modal-overlay') closeModal(); }
+    function toggleMatchaNote() { var cat = document.getElementById('inquiry-category').value; document.getElementById('matcha-note').style.display = cat === 'matcha' ? 'block' : 'none'; }
+    function submitForm(e) { e.preventDefault(); document.getElementById('inquiry-form').style.display = 'none'; document.getElementById('form-success').style.display = 'block'; }
+    var hamburger = document.querySelector('.hamburger');
+    var mobileMenu = document.getElementById('mobile-menu');
+    if (hamburger) hamburger.addEventListener('click', function() { mobileMenu.classList.add('open'); });
+    document.querySelector('.close-menu').addEventListener('click', function() { mobileMenu.classList.remove('open'); });
+    document.getElementById('mobile-quotation').addEventListener('click', function() { mobileMenu.classList.remove('open'); openModal(); });
+    var reveals = document.querySelectorAll('.reveal');
+    var obs = new IntersectionObserver(function(entries) { entries.forEach(function(e) { if (e.isIntersecting) e.target.classList.add('visible'); }); }, { threshold: 0.1 });
+    reveals.forEach(function(el) { obs.observe(el); });
+  </script>
+</body>
+</html>
