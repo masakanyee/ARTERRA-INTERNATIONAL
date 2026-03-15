@@ -28,7 +28,7 @@
       border-bottom: 1px solid #D0CAB8;
     }
     #site-header.scrolled .logo { color: #1E1C17; }
-    .nav-links { display: flex; gap: 32px; }
+    .nav-links { display: flex; gap: 32px; align-items: center; }
     .nav-links a {
       font-family: 'DM Sans', sans-serif; font-size: 11px; font-weight: 500;
       text-transform: uppercase; letter-spacing: 0.12em;
@@ -36,6 +36,89 @@
     }
     #site-header.scrolled .nav-links a { color: #1E1C17; }
     .nav-links a:hover { opacity: 0.8; }
+
+    /* Dropdown */
+    .nav-dropdown { position: relative; }
+    .nav-dropdown > a { display: flex; align-items: center; gap: 4px; }
+    .nav-dropdown > a::after { content: '▾'; font-size: 9px; }
+    .dropdown-menu {
+      display: none; position: absolute; top: calc(100% + 16px); left: 50%;
+      transform: translateX(-50%);
+      background: rgba(30,28,23,0.97); backdrop-filter: blur(8px);
+      border: 1px solid #2E2C25; min-width: 180px; z-index: 200;
+      padding: 8px 0;
+    }
+    .dropdown-menu a {
+      display: block; padding: 10px 20px;
+      font-family: 'DM Sans', sans-serif; font-size: 11px; font-weight: 500;
+      text-transform: uppercase; letter-spacing: 0.12em;
+      color: #F3F0E6 !important; text-decoration: none;
+      transition: background 0.15s, color 0.15s;
+      opacity: 1 !important;
+    }
+    .dropdown-menu a:hover { background: rgba(89,168,66,0.15); color: #89A882 !important; }
+    .nav-dropdown:hover .dropdown-menu,
+    .nav-dropdown:focus-within .dropdown-menu { display: block; }
+    /* Bridge gap so cursor doesn't leave hover area */
+    .nav-dropdown::before {
+      content: ''; position: absolute; top: 100%;
+      left: -20px; right: -20px; height: 20px;
+    }
+
+    /* Page Transition — layered matcha panels */
+    #page-transition {
+      position: fixed; inset: 0; z-index: 9999;
+      pointer-events: none; overflow: hidden;
+    }
+    #page-transition.covering { pointer-events: all; }
+    #page-transition.no-transition,
+    #page-transition.no-transition * { transition: none !important; }
+    .pt-panel {
+      position: absolute; inset: 0;
+      transform: translateX(105%);
+    }
+    .pt-panel:nth-child(1) { background: #89A882; transition: transform 0.85s cubic-bezier(0.86,0,0.07,1); }
+    .pt-panel:nth-child(2) { background: #3B6B42; transition: transform 0.85s 0.12s cubic-bezier(0.86,0,0.07,1); }
+    .pt-panel:nth-child(3) {
+      background: #1E1C17; transition: transform 0.85s 0.24s cubic-bezier(0.86,0,0.07,1);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .pt-panel:nth-child(3)::after {
+      content: ''; position: absolute; inset: 0; pointer-events: none;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-size: 256px; opacity: 0.05; mix-blend-mode: overlay;
+    }
+    .pt-logo {
+      font-family: 'Shippori Mincho', serif; font-size: 52px; color: #F3F0E6;
+      letter-spacing: 0.22em; opacity: 0; transform: translateY(10px);
+      transition: opacity 0.35s, transform 0.35s; position: relative; z-index: 1; user-select: none;
+    }
+    #page-transition.covering .pt-panel { transform: translateX(0); }
+    #page-transition.covering .pt-logo { opacity: 1; transform: translateY(0); transition-delay: 0.65s; }
+    #page-transition.revealed .pt-panel:nth-child(1) { transform: translateX(-105%); transition: transform 0.85s 0.24s cubic-bezier(0.86,0,0.07,1); }
+    #page-transition.revealed .pt-panel:nth-child(2) { transform: translateX(-105%); transition: transform 0.85s 0.12s cubic-bezier(0.86,0,0.07,1); }
+    #page-transition.revealed .pt-panel:nth-child(3) { transform: translateX(-105%); transition: transform 0.85s 0s cubic-bezier(0.86,0,0.07,1); }
+    #page-transition.revealed .pt-logo { opacity: 0; transform: translateY(-10px); transition-delay: 0s; }
+    .pt-particle {
+      position: absolute; border-radius: 50%; pointer-events: none;
+      animation: pt-float linear forwards;
+    }
+    @keyframes pt-float {
+      0%   { transform: translateY(0) rotate(0deg) scale(1); opacity: 0; }
+      12%  { opacity: 1; }
+      100% { transform: translateY(-320px) rotate(200deg) scale(0.15); opacity: 0; }
+    }
+
+    /* Instagram button */
+    .ig-btn {
+      display: inline-flex; align-items: center;
+      font-family: 'DM Sans', sans-serif; font-size: 11px; font-weight: 500;
+      text-transform: uppercase; letter-spacing: 0.1em;
+      color: #89A882; border: 1px solid #89A882; border-radius: 3px;
+      padding: 8px 16px; text-decoration: none;
+      transition: background 0.2s, color 0.2s;
+    }
+    .ig-btn:hover { background: #89A882; color: white; }
     .hamburger {
       display: none; background: none; border: none; color: white;
       font-size: 24px; cursor: pointer; padding: 4px;
@@ -96,8 +179,8 @@
     }
 
     /* Reveal */
-    .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
-    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal { opacity: 0; transform: translateY(18px); filter: blur(6px); transition: opacity 1.1s ease, transform 1.1s ease, filter 1.1s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); filter: blur(0); }
 
     /* About - WHAT WE DO */
     #about { background: #F3F0E6; }
@@ -506,7 +589,15 @@
     <a href="#" class="logo">ARTERRA</a>
     <nav class="nav-links">
       <a href="#hero">TOP</a>
-      <a href="#about">ABOUT US</a>
+      <div class="nav-dropdown">
+        <a href="#about">WHAT WE DO</a>
+        <div class="dropdown-menu">
+          <a href="matcha-sourcing.html">Matcha Sourcing</a>
+          <a href="bottled-tea.html">Bottled Tea</a>
+          <a href="media.html">Media</a>
+          <a href="farming.html">Farming</a>
+        </div>
+      </div>
       <a href="#who">WHO WE ARE</a>
       <a href="#process">PROCESS</a>
       <a href="#" onclick="openModal(); return false;">QUOTATION</a>
@@ -517,7 +608,11 @@
   <div class="mobile-overlay" id="mobile-menu">
     <button class="close-menu" type="button" aria-label="Close">×</button>
     <a href="#hero">TOP</a>
-    <a href="#about">ABOUT US</a>
+    <a href="#about">WHAT WE DO</a>
+    <a href="matcha-sourcing.html" style="font-size:18px; opacity:0.7;">— Matcha Sourcing</a>
+    <a href="bottled-tea.html" style="font-size:18px; opacity:0.7;">— Bottled Tea</a>
+    <a href="media.html" style="font-size:18px; opacity:0.7;">— Media</a>
+    <a href="farming.html" style="font-size:18px; opacity:0.7;">— Farming</a>
     <a href="#who">WHO WE ARE</a>
     <a href="#process">PROCESS</a>
     <a href="#" id="mobile-quotation">QUOTATION</a>
@@ -572,7 +667,7 @@
         <a href="matcha-sourcing.html" class="detail-link">VIEW DETAILS →</a>
       </div>
       <div class="service-image">
-        <div class="placeholder"></div>
+        <img src="images/home%20pics/matcha%20sourcing(home).avif" alt="Matcha Sourcing">
       </div>
     </div>
 
@@ -580,16 +675,16 @@
       <div class="service-text">
         <span class="service-num">02</span>
         <h3 class="service-heading">Bottled Tea</h3>
-        <p class="service-quote">"Unlocking the true aroma sleeping within the leaves."</p>
+        <p class="service-quote">"Honoring the leaf through the patience of time."</p>
         <p class="service-body">
-          Our cold-extraction process takes 30× longer than standard PET production.
-          Each drop is drawn at low temperature, maximizing theanine concentration —
-          delivering a depth of sweetness unlike anything on the market.
+          Elevating RTD standards. Our cold-extraction process preserves the delicate
+          theanine and aromatics often lost in mass production, delivering a profound
+          depth of natural sweetness.
         </p>
         <a href="bottled-tea.html" class="detail-link">VIEW DETAILS →</a>
       </div>
       <div class="service-image">
-        <div class="placeholder"></div>
+        <img src="images/home%20pics/bottled%20tea(home)%20.webp" alt="Bottled Tea">
       </div>
     </div>
 
@@ -598,14 +693,22 @@
         <span class="service-num">03</span>
         <h3 class="service-heading">Media</h3>
         <p class="service-body">
-          We operate the world's most-followed matcha media platform, connecting
-          Japanese craft with a global audience through ongoing brand collaborations.
+          MATCHANNEL is the world's most-followed media platform specializing in matcha.
+          We have built a vast and diverse global fan base, starting with a strong foundation
+          of followers in Japan. As a core pillar of ARTERRA, MATCHANNEL functions as a
+          strategic intelligence hub, gathering real-time insights from the global matcha market.
         </p>
         <span class="service-tags"><span class="badge">#1 Most-Followed Matcha Media Globally</span></span>
-        <a href="media.html" class="detail-link">VIEW DETAILS →</a>
+        <div style="display:flex; gap:12px; align-items:center; margin-top:20px; flex-wrap:wrap;">
+          <a href="media.html" class="detail-link" style="margin-top:0;">VIEW DETAILS →</a>
+          <a href="https://www.instagram.com/matchannel_official/" target="_blank" rel="noopener" class="ig-btn">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style="vertical-align:middle;margin-right:6px;"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+            @MATCHANNEL
+          </a>
+        </div>
       </div>
       <div class="service-image">
-        <div class="placeholder"></div>
+        <img src="images/home%20pics/media(home).avif" alt="Media">
       </div>
     </div>
 
@@ -619,7 +722,7 @@
         <a href="farming.html" class="detail-link">VIEW DETAILS →</a>
       </div>
       <div class="service-image">
-        <div class="placeholder"></div>
+        <img src="images/home%20pics/farming(home).avif" alt="Farming">
       </div>
     </div>
   </section>
@@ -1107,6 +1210,46 @@
         }
       }, { threshold: 0.5 }).observe(statEl);
     }
+  </script>
+
+  <div id="page-transition">
+    <div class="pt-panel"></div>
+    <div class="pt-panel"></div>
+    <div class="pt-panel"><span class="pt-logo">ARTERRA</span></div>
+  </div>
+  <script>
+    (function() {
+      var pt = document.getElementById('page-transition');
+      if (!pt) return;
+      var darkPanel = pt.querySelector('.pt-panel:last-child');
+      var cols = ['rgba(137,168,130,0.9)','rgba(89,158,96,0.85)','rgba(59,107,66,0.95)','rgba(195,225,175,0.7)'];
+      function spawnParticles() {
+        for (var i = 0; i < 30; i++) {
+          var p = document.createElement('div'); p.className = 'pt-particle';
+          var s = 2 + Math.random() * 5;
+          p.style.cssText = 'width:'+s+'px;height:'+s+'px;left:'+(5+Math.random()*90)+'%;bottom:'+(3+Math.random()*38)+'%;background:'+cols[Math.floor(Math.random()*cols.length)]+';animation-delay:'+(Math.random()*0.55)+'s;animation-duration:'+(1.8+Math.random()*2.2)+'s;';
+          darkPanel.appendChild(p);
+        }
+      }
+      function clearParticles() { pt.querySelectorAll('.pt-particle').forEach(function(p){p.remove();}); }
+      pt.classList.add('no-transition', 'covering');
+      pt.offsetHeight;
+      pt.classList.remove('no-transition');
+      requestAnimationFrame(function() { requestAnimationFrame(function() {
+        pt.classList.remove('covering'); pt.classList.add('revealed');
+      }); });
+      document.addEventListener('click', function(e) {
+        var link = e.target.closest('a[href]');
+        if (!link) return;
+        var href = link.getAttribute('href');
+        if (!href || href.startsWith('#') || href.startsWith('javascript') || href.startsWith('mailto') || link.getAttribute('target') === '_blank' || link.hasAttribute('onclick')) return;
+        e.preventDefault();
+        clearParticles(); spawnParticles();
+        pt.classList.remove('revealed'); pt.classList.add('covering');
+        var dest = href;
+        setTimeout(function() { window.location.href = dest; }, 1200);
+      });
+    })();
   </script>
 </body>
 </html>

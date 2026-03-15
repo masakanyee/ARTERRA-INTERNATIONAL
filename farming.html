@@ -10,49 +10,92 @@
   <style>
     *, *::before, *::after { box-sizing: border-box; }
     body { margin: 0; font-family: 'DM Sans', sans-serif; color: #1E1C17; }
-    img { max-width: 100%; height: auto; }
-    #site-header { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; justify-content: space-between; align-items: center; padding: 20px 48px; background: rgba(243,240,230,0.95); backdrop-filter: blur(8px); border-bottom: 1px solid #D0CAB8; }
-    #site-header .logo { font-family: 'Shippori Mincho', serif; font-size: 18px; font-weight: 400; color: #1E1C17; text-decoration: none; }
-    .nav-links { display: flex; gap: 32px; }
-    .nav-links a { font-family: 'DM Sans', sans-serif; font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.12em; color: #1E1C17; text-decoration: none; transition: opacity 0.2s; }
-    .nav-links a:hover { opacity: 0.6; }
-    .hamburger { display: none; background: none; border: none; color: #1E1C17; font-size: 24px; cursor: pointer; padding: 4px; }
-    .mobile-overlay { display: none; position: fixed; inset: 0; background: rgba(30,28,23,0.95); z-index: 99; flex-direction: column; justify-content: center; align-items: center; gap: 24px; }
+
+    #site-header {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 20px 48px; background: rgba(30,28,23,0.6);
+      backdrop-filter: blur(8px); border-bottom: 1px solid rgba(255,255,255,0.08);
+      transition: background 0.3s;
+    }
+    #site-header .logo { font-family: 'Shippori Mincho', serif; font-size: 18px; font-weight: 400; color: #F3F0E6; text-decoration: none; }
+    .nav-links { display: flex; gap: 32px; align-items: center; }
+    .nav-links a { font-family: 'DM Sans', sans-serif; font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.12em; color: rgba(243,240,230,0.7); text-decoration: none; transition: color 0.2s; }
+    .nav-links a:hover { color: #F3F0E6; }
+    .nav-dropdown { position: relative; }
+    .nav-dropdown > a { display: flex; align-items: center; gap: 4px; color: rgba(243,240,230,0.7); }
+    .nav-dropdown > a::after { content: '▾'; font-size: 9px; }
+    .nav-dropdown::before { content: ''; position: absolute; top: 100%; left: -20px; right: -20px; height: 20px; }
+    .dropdown-menu { display: none; position: absolute; top: calc(100% + 16px); left: 50%; transform: translateX(-50%); background: rgba(30,28,23,0.97); backdrop-filter: blur(8px); border: 1px solid #2E2C25; min-width: 180px; z-index: 200; padding: 8px 0; }
+    .dropdown-menu a { display: block; padding: 10px 20px; font-family: 'DM Sans', sans-serif; font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.12em; color: #F3F0E6 !important; text-decoration: none; transition: background 0.15s; opacity: 1 !important; }
+    .dropdown-menu a:hover { background: rgba(89,168,66,0.15); color: #89A882 !important; }
+    .nav-dropdown:hover .dropdown-menu, .nav-dropdown:focus-within .dropdown-menu { display: block; }
+    #page-transition { position: fixed; inset: 0; z-index: 9999; pointer-events: none; overflow: hidden; }
+    #page-transition.covering { pointer-events: all; }
+    #page-transition.no-transition, #page-transition.no-transition * { transition: none !important; }
+    .pt-panel { position: absolute; inset: 0; transform: translateX(105%); }
+    .pt-panel:nth-child(1) { background: #89A882; transition: transform 0.85s cubic-bezier(0.86,0,0.07,1); }
+    .pt-panel:nth-child(2) { background: #3B6B42; transition: transform 0.85s 0.12s cubic-bezier(0.86,0,0.07,1); }
+    .pt-panel:nth-child(3) { background: #1E1C17; transition: transform 0.85s 0.24s cubic-bezier(0.86,0,0.07,1); display: flex; align-items: center; justify-content: center; }
+    .pt-panel:nth-child(3)::after { content: ''; position: absolute; inset: 0; pointer-events: none; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); background-size: 256px; opacity: 0.05; mix-blend-mode: overlay; }
+    .pt-logo { font-family: 'Shippori Mincho', serif; font-size: 52px; color: #F3F0E6; letter-spacing: 0.22em; opacity: 0; transform: translateY(10px); transition: opacity 0.35s, transform 0.35s; position: relative; z-index: 1; user-select: none; }
+    #page-transition.covering .pt-panel { transform: translateX(0); }
+    #page-transition.covering .pt-logo { opacity: 1; transform: translateY(0); transition-delay: 0.65s; }
+    #page-transition.revealed .pt-panel:nth-child(1) { transform: translateX(-105%); transition: transform 0.85s 0.24s cubic-bezier(0.86,0,0.07,1); }
+    #page-transition.revealed .pt-panel:nth-child(2) { transform: translateX(-105%); transition: transform 0.85s 0.12s cubic-bezier(0.86,0,0.07,1); }
+    #page-transition.revealed .pt-panel:nth-child(3) { transform: translateX(-105%); transition: transform 0.85s 0s cubic-bezier(0.86,0,0.07,1); }
+    #page-transition.revealed .pt-logo { opacity: 0; transform: translateY(-10px); transition-delay: 0s; }
+    .pt-particle { position: absolute; border-radius: 50%; pointer-events: none; animation: pt-float linear forwards; }
+    @keyframes pt-float { 0% { transform: translateY(0) rotate(0deg) scale(1); opacity: 0; } 12% { opacity: 1; } 100% { transform: translateY(-320px) rotate(200deg) scale(0.15); opacity: 0; } }
+    .hamburger { display: none; background: none; border: none; color: #F3F0E6; font-size: 24px; cursor: pointer; padding: 4px; }
+    .mobile-overlay { display: none; position: fixed; inset: 0; background: rgba(30,28,23,0.97); z-index: 99; flex-direction: column; justify-content: center; align-items: center; gap: 24px; }
     .mobile-overlay.open { display: flex; }
     .mobile-overlay a { font-family: 'Shippori Mincho', serif; font-size: 24px; color: #F3F0E6; text-decoration: none; }
     .mobile-overlay .close-menu { position: absolute; top: 20px; right: 24px; background: none; border: none; color: #F3F0E6; font-size: 28px; cursor: pointer; }
 
-    .page-hero { padding: 160px 80px 80px; background: #1E1C17; color: white; }
-    .page-hero-inner { max-width: 1200px; margin: 0 auto; }
-    .back-link { display: inline-block; margin-bottom: 40px; font-family: 'DM Sans', sans-serif; font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.12em; color: #89A882; text-decoration: none; transition: opacity 0.2s; }
+    .wip-page {
+      min-height: 100vh;
+      background: #1E1C17;
+      display: flex; flex-direction: column;
+      justify-content: center; align-items: flex-start;
+      padding: 0 80px;
+    }
+    .wip-inner { max-width: 720px; }
+    .back-link {
+      display: inline-block; margin-bottom: 64px;
+      font-family: 'DM Sans', sans-serif; font-size: 11px; font-weight: 500;
+      text-transform: uppercase; letter-spacing: 0.12em; color: #89A882;
+      text-decoration: none; transition: opacity 0.2s;
+    }
     .back-link:hover { opacity: 0.7; }
-    .page-num { font-family: 'DM Sans', sans-serif; font-size: 11px; color: #89A882; text-transform: uppercase; letter-spacing: 0.2em; display: block; margin-bottom: 16px; }
-    .page-title { font-family: 'Shippori Mincho', serif; font-size: clamp(40px, 6vw, 80px); font-weight: 400; margin: 0 0 24px; line-height: 1.1; }
-    .coming-badge { display: inline-block; font-family: 'DM Sans', sans-serif; font-size: 10px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.15em; color: #89A882; border: 1px solid #89A882; padding: 4px 12px; margin-bottom: 20px; }
-    .page-subtitle { font-family: 'DM Sans', sans-serif; font-size: 16px; color: rgba(255,255,255,0.6); max-width: 560px; line-height: 1.7; }
-
-    .main-image { width: 100%; height: 520px; background: #2a3d2a; display: flex; align-items: center; justify-content: center; }
-    .img-placeholder-label { font-family: 'DM Sans', sans-serif; font-size: 11px; color: rgba(255,255,255,0.3); text-transform: uppercase; letter-spacing: 0.2em; }
-
-    .content-section { background: #F3F0E6; }
-    .content-inner { max-width: 900px; margin: 0 auto; padding: 80px; }
-    .section-label { font-family: 'DM Sans', sans-serif; font-size: 11px; color: #89A882; text-transform: uppercase; letter-spacing: 0.2em; display: block; margin-bottom: 16px; }
-    .content-heading { font-family: 'Shippori Mincho', serif; font-size: 36px; font-weight: 400; color: #1E1C17; margin: 0 0 28px; }
-    .content-body { font-family: 'DM Sans', sans-serif; font-size: 17px; color: #3A3632; line-height: 1.85; margin: 0 0 40px; }
-
-    .vision-section { background: #E9E5D8; }
-    .vision-inner { max-width: 900px; margin: 0 auto; padding: 80px; }
-    .vision-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-top: 40px; }
-    .vision-item { border-top: 1px solid #D0CAB8; padding-top: 28px; }
-    .vision-title { font-family: 'Shippori Mincho', serif; font-size: 22px; color: #1E1C17; margin: 0 0 12px; }
-    .vision-body { font-family: 'DM Sans', sans-serif; font-size: 14px; color: #3A3632; line-height: 1.75; margin: 0; }
-
-    .notify-section { background: #3B6B42; padding: 80px; text-align: center; }
-    .notify-inner { max-width: 600px; margin: 0 auto; }
-    .notify-title { font-family: 'Shippori Mincho', serif; font-size: 32px; color: white; font-weight: 400; margin: 0 0 16px; }
-    .notify-body { font-family: 'DM Sans', sans-serif; font-size: 15px; color: rgba(255,255,255,0.7); line-height: 1.7; margin: 0 0 32px; }
-    .notify-btn { font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.12em; color: #3B6B42; background: white; border: none; border-radius: 3px; padding: 14px 40px; cursor: pointer; transition: opacity 0.2s; }
-    .notify-btn:hover { opacity: 0.85; }
+    .page-num { font-family: 'DM Sans', sans-serif; font-size: 11px; color: #89A882; text-transform: uppercase; letter-spacing: 0.2em; display: block; margin-bottom: 20px; }
+    .page-title {
+      font-family: 'Shippori Mincho', serif;
+      font-size: clamp(48px, 7vw, 96px);
+      font-weight: 400; color: #F3F0E6;
+      margin: 0 0 40px; line-height: 1.05;
+    }
+    .wip-label {
+      font-family: 'DM Sans', sans-serif; font-size: 11px; font-weight: 500;
+      text-transform: uppercase; letter-spacing: 0.2em;
+      color: #89A882; border: 1px solid #89A882;
+      display: inline-block; padding: 6px 16px; margin-bottom: 40px;
+    }
+    .wip-body {
+      font-family: 'DM Sans', sans-serif; font-size: 17px;
+      color: rgba(243,240,230,0.5); line-height: 1.85; max-width: 480px;
+    }
+    .wip-divider {
+      width: 40px; height: 1px; background: #3B6B42;
+      margin: 48px 0;
+    }
+    .wip-cta-link {
+      font-family: 'DM Sans', sans-serif; font-size: 11px; font-weight: 500;
+      text-transform: uppercase; letter-spacing: 0.12em; color: #89A882;
+      text-decoration: none; cursor: pointer; background: none; border: none;
+      padding: 0; transition: opacity 0.2s;
+    }
+    .wip-cta-link:hover { opacity: 0.7; }
 
     footer { background: #1E1C17; border-top: 1px solid #2E2C25; }
     .footer-inner { max-width: 1200px; margin: 0 auto; padding: 64px 80px; display: grid; grid-template-columns: 1fr 1fr 1fr; align-items: start; }
@@ -76,22 +119,16 @@
     .field-group input, .field-group select, .field-group textarea { width: 100%; background: transparent; border: none; border-bottom: 1px solid #D0CAB8; padding: 10px 0; font-family: 'DM Sans', sans-serif; font-size: 15px; color: #1E1C17; outline: none; }
     .field-group input:focus, .field-group select:focus, .field-group textarea:focus { border-bottom-color: #3B6B42; }
     .radio-group { display: flex; gap: 24px; margin-top: 8px; flex-wrap: wrap; }
-    .radio-label { font-family: 'DM Sans', sans-serif; font-size: 14px; color: #3A3632; text-transform: none; letter-spacing: 0; cursor: pointer; }
-    #matcha-note { display: none; font-family: 'DM Sans', sans-serif; font-size: 13px; font-style: italic; color: #89A882; border-left: 2px solid #3B6B42; padding-left: 12px; margin-bottom: 20px; }
+    .radio-label { font-family: 'DM Sans', sans-serif; font-size: 14px; color: #3A3632; cursor: pointer; }
+    #matcha-note { font-family: 'DM Sans', sans-serif; font-size: 13px; font-style: italic; color: #89A882; border-left: 2px solid #3B6B42; padding-left: 12px; margin-bottom: 20px; display: none; }
     .submit-btn { width: 100%; background: #3B6B42; color: white; border: none; border-radius: 3px; padding: 14px; font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.1em; cursor: pointer; transition: background 0.2s; }
     .submit-btn:hover { background: #5A9E40; }
     .success-title { font-family: 'Shippori Mincho', serif; font-size: 28px; color: #1E1C17; }
     .success-sub { font-family: 'DM Sans', sans-serif; font-size: 14px; color: #89A882; margin-top: 12px; }
     #form-success { display: none; }
 
-    .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
-    .reveal.visible { opacity: 1; transform: translateY(0); }
-
     @media (max-width: 768px) {
-      .page-hero { padding: 120px 24px 60px; }
-      .content-inner, .vision-inner { padding: 60px 24px; }
-      .notify-section { padding: 60px 24px; }
-      .vision-grid { grid-template-columns: 1fr; }
+      .wip-page { padding: 0 24px; }
       .footer-inner { grid-template-columns: 1fr; gap: 40px; padding: 48px 24px; }
       .footer-bottom { padding: 20px 24px; }
       .nav-links { display: none; }
@@ -105,7 +142,15 @@
     <a href="index.html" class="logo">ARTERRA</a>
     <nav class="nav-links">
       <a href="index.html#hero">TOP</a>
-      <a href="index.html#about">ABOUT US</a>
+      <div class="nav-dropdown">
+        <a href="index.html#about">WHAT WE DO</a>
+        <div class="dropdown-menu">
+          <a href="matcha-sourcing.html">Matcha Sourcing</a>
+          <a href="bottled-tea.html">Bottled Tea</a>
+          <a href="media.html">Media</a>
+          <a href="farming.html">Farming</a>
+        </div>
+      </div>
       <a href="index.html#who">WHO WE ARE</a>
       <a href="index.html#process">PROCESS</a>
       <a href="#" onclick="openModal(); return false;">QUOTATION</a>
@@ -116,87 +161,38 @@
   <div class="mobile-overlay" id="mobile-menu">
     <button class="close-menu" type="button" aria-label="Close">×</button>
     <a href="index.html#hero">TOP</a>
-    <a href="index.html#about">ABOUT US</a>
+    <a href="index.html#about">WHAT WE DO</a>
+    <a href="matcha-sourcing.html" style="font-size:18px; opacity:0.7;">— Matcha Sourcing</a>
+    <a href="bottled-tea.html" style="font-size:18px; opacity:0.7;">— Bottled Tea</a>
+    <a href="media.html" style="font-size:18px; opacity:0.7;">— Media</a>
+    <a href="farming.html" style="font-size:18px; opacity:0.7;">— Farming</a>
     <a href="index.html#who">WHO WE ARE</a>
     <a href="index.html#process">PROCESS</a>
     <a href="#" id="mobile-quotation">QUOTATION</a>
   </div>
 
-  <section class="page-hero">
-    <div class="page-hero-inner">
+  <div class="wip-page">
+    <div class="wip-inner">
       <a href="index.html#about" class="back-link">← WHAT WE DO</a>
-      <span class="coming-badge">Coming Soon</span>
       <span class="page-num">04</span>
+      <span class="wip-label">Working on it</span>
       <h1 class="page-title">Farming</h1>
-      <p class="page-subtitle">Direct farming partnerships — from soil to supply chain. Currently in development.</p>
-    </div>
-  </section>
-
-  <div class="main-image">
-    <span class="img-placeholder-label">IMAGE — Tea Fields / Farming</span>
-  </div>
-
-  <section class="content-section">
-    <div class="content-inner">
-      <span class="section-label reveal">The Vision</span>
-      <h2 class="content-heading reveal">Closer to the Source.</h2>
-      <p class="content-body reveal">
-        The next frontier for ARTERRA is direct farming partnerships — relationships
-        built not at the trading desk, but in the field. We are developing direct ties
-        with tea farmers in Japan and select international regions to give our clients
-        unprecedented traceability and consistency.
+      <p class="wip-body">
+        Direct farming partnerships are currently in development.
+        We are building long-term relationships with growers across Japan's key tea-producing regions.
+        Details to follow.
       </p>
-      <p class="content-body reveal">
-        This is not outsourcing. It is collaboration — working alongside the growers who
-        shape the land, refining practices together, and creating a supply chain that
-        neither side could build alone.
-      </p>
+      <div class="wip-divider"></div>
+      <button type="button" class="wip-cta-link" onclick="openModal()">Get notified when this launches →</button>
     </div>
-  </section>
-
-  <section class="vision-section">
-    <div class="vision-inner">
-      <span class="section-label reveal">What This Means</span>
-      <h2 class="content-heading reveal">What Direct Farming Unlocks</h2>
-      <div class="vision-grid">
-        <div class="vision-item reveal">
-          <h3 class="vision-title">Full Traceability</h3>
-          <p class="vision-body">Field-to-cup documentation. Know exactly where your matcha was grown, when it was harvested, and how it was processed.</p>
-        </div>
-        <div class="vision-item reveal">
-          <h3 class="vision-title">Quality Co-Development</h3>
-          <p class="vision-body">Work directly with farmers to refine shading duration, harvest timing, and processing for your specific application.</p>
-        </div>
-        <div class="vision-item reveal">
-          <h3 class="vision-title">Supply Security</h3>
-          <p class="vision-body">Dedicated allocations from partner farms — protecting your volume against market fluctuations and harvest variability.</p>
-        </div>
-        <div class="vision-item reveal">
-          <h3 class="vision-title">Exclusive Access</h3>
-          <p class="vision-body">Access to single-origin lots and experimental varieties not available through standard sourcing channels.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <div class="main-image" style="height: 360px; background: #3B6B42;">
-    <span class="img-placeholder-label">IMAGE — Farming / Fields</span>
   </div>
-
-  <section class="notify-section">
-    <div class="notify-inner">
-      <h2 class="notify-title">Stay Updated</h2>
-      <p class="notify-body">Farming partnerships are currently in development. Reach out if you'd like to be among the first to know when this becomes available.</p>
-      <button type="button" class="notify-btn" onclick="openModal()">REGISTER INTEREST</button>
-    </div>
-  </section>
 
   <footer>
     <div class="footer-inner">
       <div class="footer-brand"><span class="logo">ARTERRA</span><p>Japanese Matcha. Global Scale.</p></div>
       <nav class="footer-nav">
         <a href="index.html#hero">TOP</a>
-        <a href="index.html#about">ABOUT US</a>
+        <a href="index.html#about">WHAT WE DO</a>
         <a href="index.html#who">WHO WE ARE</a>
         <a href="index.html#process">PROCESS</a>
         <a href="#" onclick="openModal(); return false;">QUOTATION</a>
@@ -259,9 +255,46 @@
     if (hamburger) hamburger.addEventListener('click', function() { mobileMenu.classList.add('open'); });
     document.querySelector('.close-menu').addEventListener('click', function() { mobileMenu.classList.remove('open'); });
     document.getElementById('mobile-quotation').addEventListener('click', function() { mobileMenu.classList.remove('open'); openModal(); });
-    var reveals = document.querySelectorAll('.reveal');
-    var obs = new IntersectionObserver(function(entries) { entries.forEach(function(e) { if (e.isIntersecting) e.target.classList.add('visible'); }); }, { threshold: 0.1 });
-    reveals.forEach(function(el) { obs.observe(el); });
+  </script>
+
+  <div id="page-transition">
+    <div class="pt-panel"></div>
+    <div class="pt-panel"></div>
+    <div class="pt-panel"><span class="pt-logo">ARTERRA</span></div>
+  </div>
+  <script>
+    (function() {
+      var pt = document.getElementById('page-transition');
+      if (!pt) return;
+      var darkPanel = pt.querySelector('.pt-panel:last-child');
+      var cols = ['rgba(137,168,130,0.9)','rgba(89,158,96,0.85)','rgba(59,107,66,0.95)','rgba(195,225,175,0.7)'];
+      function spawnParticles() {
+        for (var i = 0; i < 30; i++) {
+          var p = document.createElement('div'); p.className = 'pt-particle';
+          var s = 2 + Math.random() * 5;
+          p.style.cssText = 'width:'+s+'px;height:'+s+'px;left:'+(5+Math.random()*90)+'%;bottom:'+(3+Math.random()*38)+'%;background:'+cols[Math.floor(Math.random()*cols.length)]+';animation-delay:'+(Math.random()*0.55)+'s;animation-duration:'+(1.8+Math.random()*2.2)+'s;';
+          darkPanel.appendChild(p);
+        }
+      }
+      function clearParticles() { pt.querySelectorAll('.pt-particle').forEach(function(p){p.remove();}); }
+      pt.classList.add('no-transition', 'covering');
+      pt.offsetHeight;
+      pt.classList.remove('no-transition');
+      requestAnimationFrame(function() { requestAnimationFrame(function() {
+        pt.classList.remove('covering'); pt.classList.add('revealed');
+      }); });
+      document.addEventListener('click', function(e) {
+        var link = e.target.closest('a[href]');
+        if (!link) return;
+        var href = link.getAttribute('href');
+        if (!href || href.startsWith('#') || href.startsWith('javascript') || href.startsWith('mailto') || link.getAttribute('target') === '_blank' || link.hasAttribute('onclick')) return;
+        e.preventDefault();
+        clearParticles(); spawnParticles();
+        pt.classList.remove('revealed'); pt.classList.add('covering');
+        var dest = href;
+        setTimeout(function() { window.location.href = dest; }, 1200);
+      });
+    })();
   </script>
 </body>
 </html>
