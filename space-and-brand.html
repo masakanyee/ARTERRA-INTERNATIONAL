@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ARTERRA — Matcha Sourcing</title>
+  <title>ARTERRA — Space & Brand</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;1,9..40,400&family=Shippori+Mincho:wght@400;500&display=swap" rel="stylesheet">
@@ -52,6 +52,7 @@
     .dropdown-menu a:hover { background: rgba(89,168,66,0.15); color: #89A882 !important; }
     .nav-dropdown:hover .dropdown-menu,
     .nav-dropdown:focus-within .dropdown-menu { display: block; }
+
     /* Page Transition */
     #page-transition { position: fixed; inset: 0; z-index: 9999; pointer-events: none; overflow: hidden; }
     #page-transition.covering { pointer-events: all; }
@@ -70,6 +71,7 @@
     #page-transition.revealed .pt-logo { opacity: 0; transform: translateY(-10px); transition-delay: 0s; }
     .pt-particle { position: absolute; border-radius: 50%; pointer-events: none; animation: pt-float linear forwards; }
     @keyframes pt-float { 0% { transform: translateY(0) rotate(0deg) scale(1); opacity: 0; } 12% { opacity: 1; } 100% { transform: translateY(-320px) rotate(200deg) scale(0.15); opacity: 0; } }
+
     .hamburger {
       display: none; background: none; border: none; color: #1E1C17;
       font-size: 24px; cursor: pointer; padding: 4px;
@@ -119,19 +121,11 @@
     /* Main image */
     .main-image {
       width: 100%; height: 520px;
-      background: #3B6B42;
+      background: #1E1C17;
       display: flex; align-items: center; justify-content: center;
       overflow: hidden;
     }
     .main-image img { width: 100%; height: 100%; object-fit: cover; display: block; }
-    .main-image .img-placeholder {
-      width: 100%; height: 100%; background: #3B6B42;
-      display: flex; align-items: center; justify-content: center;
-    }
-    .img-placeholder-label {
-      font-family: 'DM Sans', sans-serif; font-size: 11px; color: rgba(255,255,255,0.4);
-      text-transform: uppercase; letter-spacing: 0.2em;
-    }
 
     /* Content */
     .content-section { background: #F3F0E6; }
@@ -177,26 +171,50 @@
 
     /* Secondary image */
     .secondary-image {
-      width: 100%; height: 400px; background: #6D653C;
+      width: 100%; height: 400px; background: #2A3A2A;
       display: flex; align-items: center; justify-content: center;
+      overflow: hidden;
+    }
+    .secondary-image img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+    /* Tearoom image */
+    .tearoom-image {
+      width: 100%; height: 320px; background: #1E1C17;
+      display: flex; align-items: center; justify-content: center;
+      overflow: hidden; position: relative;
+    }
+    .tearoom-image img { width: 100%; height: 100%; object-fit: cover; display: block; opacity: 0.75; }
+    .tearoom-caption {
+      position: absolute; bottom: 32px; left: 50%; transform: translateX(-50%);
+      font-family: 'Shippori Mincho', serif; font-size: 18px; color: rgba(243,240,230,0.85);
+      letter-spacing: 0.15em; white-space: nowrap;
     }
 
-    /* Grade table */
-    .grade-section { background: #E9E5D8; }
-    .grade-inner { max-width: 1200px; margin: 0 auto; padding: 80px; }
-    .grade-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; margin-top: 40px; }
-    .grade-card { background: #F3F0E6; padding: 32px; }
-    .grade-name {
-      font-family: 'Shippori Mincho', serif; font-size: 22px; color: #1E1C17;
-      margin: 0 0 12px;
-    }
-    .grade-desc {
-      font-family: 'DM Sans', sans-serif; font-size: 14px; color: #3A3632;
-      line-height: 1.7; margin: 0 0 16px;
-    }
-    .grade-tag {
+    /* Services section */
+    .services-section { background: #E9E5D8; }
+    .services-inner { max-width: 1200px; margin: 0 auto; padding: 80px; }
+    .services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; margin-top: 40px; }
+    .service-card { background: #F3F0E6; padding: 40px 32px; }
+    .service-card-num {
       font-family: 'DM Sans', sans-serif; font-size: 11px; color: #89A882;
+      text-transform: uppercase; letter-spacing: 0.2em; display: block; margin-bottom: 20px;
     }
+    .service-card-name {
+      font-family: 'Shippori Mincho', serif; font-size: 24px; color: #1E1C17;
+      margin: 0 0 16px; font-weight: 400;
+    }
+    .service-card-desc {
+      font-family: 'DM Sans', sans-serif; font-size: 14px; color: #3A3632;
+      line-height: 1.8; margin: 0 0 20px;
+    }
+    .service-card-items {
+      list-style: none; padding: 0; margin: 0;
+    }
+    .service-card-items li {
+      font-family: 'DM Sans', sans-serif; font-size: 12px; color: #89A882;
+      padding: 6px 0; border-top: 1px solid #D0CAB8;
+    }
+    .service-card-items li:first-child { border-top: none; }
 
     /* CTA */
     #cta { background: #1E1C17; }
@@ -270,10 +288,6 @@
     .field-group input:focus, .field-group select:focus, .field-group textarea:focus { border-bottom-color: #3B6B42; }
     .radio-group { display: flex; gap: 24px; margin-top: 8px; flex-wrap: wrap; }
     .radio-label { font-family: 'DM Sans', sans-serif; font-size: 14px; color: #3A3632; text-transform: none; letter-spacing: 0; cursor: pointer; }
-    #matcha-note {
-      font-family: 'DM Sans', sans-serif; font-size: 13px; font-style: italic; color: #89A882;
-      border-left: 2px solid #3B6B42; padding-left: 12px; margin-bottom: 20px; display: none;
-    }
     .submit-btn {
       width: 100%; background: #3B6B42; color: white; border: none; border-radius: 3px; padding: 14px;
       font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 500;
@@ -287,15 +301,14 @@
     /* Reveal */
     .reveal { opacity: 0; transform: translateY(18px); filter: blur(6px); transition: opacity 1.1s ease, transform 1.1s ease, filter 1.1s ease; }
     .reveal.visible { opacity: 1; transform: translateY(0); filter: blur(0); }
-    .reveal.visible { opacity: 1; transform: translateY(0); }
 
     /* Responsive */
     @media (max-width: 768px) {
       .page-hero { padding: 120px 24px 60px; }
       .content-inner { padding: 60px 24px; }
-      .grade-inner { padding: 60px 24px; }
+      .services-inner { padding: 60px 24px; }
       .feature-grid { grid-template-columns: 1fr; }
-      .grade-grid { grid-template-columns: 1fr; }
+      .services-grid { grid-template-columns: 1fr; }
       .cta-inner { flex-direction: column; gap: 32px; text-align: center; padding: 60px 24px; }
       .cta-text { font-size: 24px; }
       .footer-inner { grid-template-columns: 1fr; gap: 40px; padding: 48px 24px; }
@@ -303,6 +316,7 @@
       .nav-links { display: none; }
       .hamburger { display: block; }
       #site-header { padding: 16px 24px; }
+      .tearoom-caption { font-size: 14px; }
     }
   </style>
 </head>
@@ -346,104 +360,118 @@
   <section class="page-hero">
     <div class="page-hero-inner">
       <a href="index.html#about" class="back-link">← WHAT WE DO</a>
-      <span class="page-num">01</span>
-      <h1 class="page-title">Matcha Sourcing</h1>
-      <p class="page-subtitle">Full-range matcha sourcing from Japan and beyond — matched precisely to your brand, your grade, and your scale.</p>
+      <span class="page-num">05</span>
+      <h1 class="page-title">Space &amp; Brand</h1>
+      <p class="page-subtitle">From the physical embodiment of a philosophy to a complete brand identity — we design every dimension of your matcha world.</p>
     </div>
   </section>
 
-  <!-- Main Image -->
+  <!-- Main Image: building exterior at night -->
   <div class="main-image">
-    <img src="images/matcha-sourcing-main.avif" alt="Matcha Sourcing">
+    <img src="images/space-brand-main.jpg" alt="Space & Brand — Exterior">
   </div>
 
   <!-- Overview -->
   <section class="content-section">
     <div class="content-inner">
       <span class="section-label reveal">Overview</span>
-      <h2 class="content-heading reveal">Engineering the Perfect Matcha for Global Standards.</h2>
+      <h2 class="content-heading reveal">Every Detail of Your World, Designed.</h2>
       <p class="content-body reveal">
-        ARTERRA does not simply stock grades — we <strong>design specifications</strong> around your application.
-        Whether you are developing a ready-to-drink beverage, a premium confectionery line, or a ceremonial retail product,
-        we optimize for the variables that matter: theanine levels, particle size, color stability, and flavor profile.
-        Each sourcing decision is driven by <strong>purpose</strong>, not inventory.
+        Selling matcha is only the beginning. How you present it — the space your customers enter, the identity they encounter, the story they carry home — determines whether your brand becomes truly irreplaceable in its market.
       </p>
       <p class="content-body reveal">
-        Based in <strong>Kyoto</strong> — the historical center of Japan's finest matcha tradition — our team is one of the few in the world
-        with deep roots in both the tea industry and modern global commerce. Board members with generations of expertise in
-        Japanese tea, combined with specialists in culinary arts, branding, and market intelligence, give ARTERRA
-        a rare capacity for comprehensive support from sourcing through to market entry.
+        ARTERRA approaches design as a fundamental language of matcha. From a tea room that embodies the philosophy of <strong>Zen</strong> to a contemporary café concept shaped entirely around your vision, we bring together cultural depth, spatial thinking, and modern brand intelligence. Whether you are opening a café in London, launching a matcha retail brand in New York, or defining a hospitality concept in Tokyo — we design the complete experience.
       </p>
       <div class="content-quote reveal">
-        "The value of matcha is not determined by origin or grade alone — it lies in how precisely you can <span style="font-style:normal;">design</span> the right specification for the right <span style="font-style:normal;">purpose</span>."
+        "Matcha has its own culture, its own history. The most powerful brands don't just sell it — they embody it."
       </div>
 
       <!-- Feature Grid -->
       <div class="feature-grid reveal">
         <div class="feature-item">
-          <span class="feature-label">Volume Range</span>
-          <span class="feature-value">100kg – Tens of tons+</span>
-          <span class="feature-desc">Scalable per year, from launch quantities to full commercial supply</span>
+          <span class="feature-label">Space Design</span>
+          <span class="feature-value">Concept → Build</span>
+          <span class="feature-desc">Tea rooms, cafés, and restaurants designed around how matcha becomes part of daily life</span>
         </div>
         <div class="feature-item">
-          <span class="feature-label">Logic & Quality</span>
-          <span class="feature-value">Culinary → Ceremonial</span>
-          <span class="feature-desc">Specifications designed around your application — not the other way around</span>
+          <span class="feature-label">Brand Identity</span>
+          <span class="feature-value">Culture × Market</span>
+          <span class="feature-desc">Visual systems rooted in Japanese culture and calibrated to your specific market position</span>
         </div>
         <div class="feature-item">
-          <span class="feature-label">Origin & Team</span>
-          <span class="feature-value">Kyoto-based Team</span>
-          <span class="feature-desc">Specialists in tea, culinary arts, branding, and architecture — supporting every stage</span>
+          <span class="feature-label">Web &amp; Promotion</span>
+          <span class="feature-value">Digital Presence</span>
+          <span class="feature-desc">Website design, social strategy, and campaign direction shaped for each market</span>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Secondary Image -->
+  <!-- Secondary Image: garden -->
   <div class="secondary-image">
-    <img src="images/matcha-sourcing-secondary.avif" alt="Matcha Bowl" style="width:100%;height:100%;object-fit:cover;display:block;">
+    <img src="images/space-brand-garden.jpg" alt="Japanese Garden">
   </div>
 
-  <!-- Grades -->
-  <section class="grade-section">
-    <div class="grade-inner">
-      <span class="section-label reveal">Grade Guide</span>
-      <h2 class="content-heading reveal">Finding the Right Grade for Your Product</h2>
-      <div class="grade-grid">
-        <div class="grade-card reveal">
-          <h3 class="grade-name">Culinary Grade</h3>
-          <p class="grade-desc">
-            Robust flavor profile designed to hold up in baking, blended beverages,
-            ice cream, and large-scale food production. High yield, consistent color.
+  <!-- Services Section -->
+  <section class="services-section">
+    <div class="services-inner">
+      <span class="section-label reveal">What We Design</span>
+      <h2 class="content-heading reveal">Three Dimensions of Brand Expression</h2>
+      <div class="services-grid">
+        <div class="service-card reveal">
+          <span class="service-card-num">01</span>
+          <h3 class="service-card-name">Brand Identity</h3>
+          <p class="service-card-desc">
+            A brand that stands alone in its market. We build the visual and verbal language that communicates who you are — rooted in Japanese tea culture, expressed for your world.
           </p>
-          <span class="grade-tag">Ideal for: Cafés, Food Manufacturing, RTD Beverages</span>
+          <ul class="service-card-items">
+            <li>Brand naming &amp; positioning</li>
+            <li>Logo &amp; visual identity system</li>
+            <li>Packaging design</li>
+            <li>Brand guidelines</li>
+          </ul>
         </div>
-        <div class="grade-card reveal">
-          <h3 class="grade-name">Premium Grade</h3>
-          <p class="grade-desc">
-            Balanced sweetness and umami. Suitable for lattes, premium confectionery,
-            and mid-tier retail products. Smooth texture, vibrant green.
+        <div class="service-card reveal">
+          <span class="service-card-num">02</span>
+          <h3 class="service-card-name">Space &amp; Interior</h3>
+          <p class="service-card-desc">
+            Physical spaces designed around the authentic role of matcha — where aesthetics and function are inseparable. From the choice of material to the path a guest walks, every detail is intentional.
           </p>
-          <span class="grade-tag">Ideal for: Specialty Cafés, Retail, Hospitality</span>
+          <ul class="service-card-items">
+            <li>Café &amp; restaurant concept</li>
+            <li>Tea room design</li>
+            <li>Material &amp; finish selection</li>
+            <li>Signage &amp; spatial identity</li>
+          </ul>
         </div>
-        <div class="grade-card reveal">
-          <h3 class="grade-name">Ceremonial Grade</h3>
-          <p class="grade-desc">
-            Single-origin, first-harvest leaves. Drunk straight with water.
-            Deep sweetness, minimal bitterness, complex aroma.
-            Reserved for the highest-end applications.
+        <div class="service-card reveal">
+          <span class="service-card-num">03</span>
+          <h3 class="service-card-name">Web &amp; Promotion</h3>
+          <p class="service-card-desc">
+            Digital presence and promotional strategy that reflects the same depth as the physical brand. We design how your brand is discovered, understood, and remembered online.
           </p>
-          <span class="grade-tag">Ideal for: Luxury Retail, Tea Ceremonies, Gifting</span>
+          <ul class="service-card-items">
+            <li>Website design &amp; direction</li>
+            <li>Social media strategy</li>
+            <li>Campaign planning</li>
+            <li>Market-specific communication</li>
+          </ul>
         </div>
       </div>
     </div>
   </section>
+
+  <!-- Tearoom Image -->
+  <div class="tearoom-image">
+    <img src="images/space-brand-tearoom.jpg" alt="Tea Room Interior">
+    <span class="tearoom-caption">The space where intention becomes experience.</span>
+  </div>
 
   <!-- CTA -->
   <section id="cta">
     <div class="cta-inner reveal">
-      <p class="cta-text">Ready to source matcha for your brand?</p>
-      <button type="button" class="cta-btn" onclick="openModal()">GET A QUOTE</button>
+      <p class="cta-text">Ready to define your brand in the matcha world?</p>
+      <button type="button" class="cta-btn" onclick="openModal()">GET IN TOUCH</button>
     </div>
   </section>
 
@@ -488,10 +516,10 @@
           </div>
           <div class="field-group">
             <label for="inquiry-category">Inquiry Category</label>
-            <select id="inquiry-category" name="category" onchange="toggleMatchaNote()">
+            <select id="inquiry-category" name="category">
               <option value="">Select a category</option>
-              <option value="matcha" selected>Matcha Sourcing</option>
-              <option value="branding">Branding</option>
+              <option value="matcha">Matcha Sourcing</option>
+              <option value="branding" selected>Space &amp; Brand</option>
               <option value="bottled">Bottled Tea</option>
               <option value="consulting">Consulting</option>
               <option value="farming">Farming</option>
@@ -499,7 +527,6 @@
               <option value="other">Other</option>
             </select>
           </div>
-          <p id="matcha-note">For matcha sourcing inquiries, please include the product type and approximate annual volume in your message below.</p>
           <div class="field-group"><label for="subject">Subject</label><input type="text" id="subject" name="subject"></div>
           <div class="field-group"><label for="message">Message</label><textarea id="message" name="message" rows="4"></textarea></div>
           <button type="submit" class="submit-btn">SEND INQUIRY</button>
@@ -524,10 +551,6 @@
       document.body.style.overflow = '';
     }
     function closeModalOnBackdrop(e) { if (e.target.id === 'modal-overlay') closeModal(); }
-    function toggleMatchaNote() {
-      var cat = document.getElementById('inquiry-category').value;
-      document.getElementById('matcha-note').style.display = cat === 'matcha' ? 'block' : 'none';
-    }
     function submitForm(e) {
       e.preventDefault();
       document.getElementById('inquiry-form').style.display = 'none';
